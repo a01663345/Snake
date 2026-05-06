@@ -1,5 +1,6 @@
 """Snake, classic arcade game.
 
+
 Exercises
 
 1. How do you make the snake faster or slower?
@@ -10,6 +11,7 @@ Exercises
 
 from random import randrange
 from turtle import *
+from random import randrange, choice  """added change"""
 
 from freegames import square, vector
 
@@ -17,6 +19,13 @@ food = vector(0, 0)
 snake = [vector(10, 0)]
 aim = vector(0, -10)
 
+"""Added change"""
+food_moves = [
+    vector(10, 0),
+    vector(-10, 0),
+    vector(0, 10),
+    vector(0, -10)
+]
 
 def change(x, y):
     """Change snake direction."""
@@ -28,6 +37,16 @@ def inside(head):
     """Return True if head inside boundaries."""
     return -200 < head.x < 190 and -200 < head.y < 190
 
+"""Added change"""
+def move_food():
+    "Move food randomly one step"
+    move = choice(food_moves)
+    new_food = food.copy()
+    new_food.move(move)
+
+    if inside(new_food):
+        food.x = new_food.x
+        food.y = new_food.y
 
 def move():
     """Move snake forward one segment."""
@@ -47,7 +66,7 @@ def move():
         food.y = randrange(-15, 15) * 10
     else:
         snake.pop(0)
-
+    move_food()
     clear()
 
     for body in snake:
